@@ -1,0 +1,5 @@
+dependencies:
+- name: mariadb
+  version: 10.3.5
+  repository: "https://charts.bitnami.com/bitnami"
+  alias: mysql
