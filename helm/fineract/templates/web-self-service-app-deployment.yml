@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-self-service-app-deployment
+  name: self-service
   labels:
-    app: web-self-service-app
+    app: self-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: web-self-service-app
+      app: self-service
   template:
     metadata:
       labels:
-        app: web-self-service-app
+        app: self-service
     spec:
       containers:
-      - image: fynarfin.azurecr.io/web-self-service-app:latest
+      - image: "{{ .Values.selfservice.image }}"
         resources:
           limits:
             cpu: "1000m"
@@ -36,7 +36,7 @@ spec:
           initialDelaySeconds: 90
           periodSeconds: 1                      
         imagePullPolicy: Always
-        name: web-self-service-app-container
+        name: self-service
         ports:
         - containerPort: 80
         resources: {}

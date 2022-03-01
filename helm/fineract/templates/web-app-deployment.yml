@@ -15,7 +15,7 @@ spec:
         app: web-app
     spec:
       containers:      
-      - image: fynarfin.azurecr.io/web-app:latest
+      - image: "{{ .Values.webapp.image }}"
         resources:
           limits:
             cpu: "1000m"

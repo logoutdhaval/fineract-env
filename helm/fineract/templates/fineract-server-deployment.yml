@@ -60,7 +60,7 @@ spec:
           command: ['sh', '-c', 'echo -e "Checking for the availability of MYSQL server deployment"; while ! nc -z "fineract-mysql" 3306; do sleep 1; printf "-"; done; echo -e " >> MYSQL server has started";']
       containers:
       - name: fineract-server
-        image: fynarfin.azurecr.io/fineract:latest
+        image: "{{ .Values.fineract.image }}"
         imagePullPolicy: Always
         resources:
           limits:
@@ -129,7 +129,7 @@ metadata:
 {{- end }}
 spec:
   rules:
-    - host: "{{ .Values.fineract.hostname }}"
+    - host: "{{ .Values.fineract.ingress.hostname }}"
       http:
         paths:
           - path: /

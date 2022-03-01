@@ -1,21 +1,42 @@
 fineract:
   DFSPIDS: ""
   SPRING_PROFILES_ACTIVE: "bb"
-  hostname: "fin-db-pf.onenet.xyz"
-  image: ""
+  image: "fynarfin.azurecr.io/fineract:latest"
   ingress:
     enabled: true
+    hostname: "fin-db-pf.onenet.xyz"
     annotations: 
       kubernetes.io/ingress.class: "nginx"
 
 communityapp:
-  hostname: "fin-db.onenet.xyz"
-  path: "/"
-  image: ""
+  image: "openmf/community-app:latest"
   ingress:
     enabled: true
+    hostname: "fin-db.onenet.xyz"
+    path: "/community"
     annotations: 
       kubernetes.io/ingress.class: "nginx"
+
+webapp:
+  image: "fynarfin.azurecr.io/web-app:latest"
+  ingress:
+    enabled: true
+    hostname: "fin-db.onenet.xyz"
+    path: "/web"
+    annotations: 
+      kubernetes.io/ingress.class: "nginx"
+
+selfservice:
+  image: "fynarfin.azurecr.io/web-self-service-app:latest"
+  ingress:
+    enabled: true
+    hostname: "fin-db.onenet.xyz"
+    path: "/self"
+    annotations: 
+      kubernetes.io/ingress.class: "nginx"
+
+
+
 
 mysql:
   image:
