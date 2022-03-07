@@ -66,4 +66,5 @@ mysql:
 
 wildcardhostname: "*.onenet.xyz"
 
+// https://adolfi.dev/blog/tls-kubernetes/
 tls: "onenet"  

@@ -21,15 +21,16 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: fineract-server
-  name: fineract-server
+    app: fineract
+  name: fineract
+  namespace: pentaho-test
 spec:
   ports:
   - protocol: TCP
     port: 8443
     targetPort: 8443
   selector:
-    app: fineract-server
+    app: fineract
     tier: backend
   type: LoadBalancer
 
@@ -38,29 +39,29 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fineract-server
+  name: fineract
   labels:
-    app: fineract-server
+    app: fineract
 spec:
   selector:
     matchLabels:
-      app: fineract-server
+      app: fineract
       tier: backend
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: fineract-server
+        app: fineract
         tier: backend
     spec:
       initContainers:
         - name: init-mydb
           image: busybox:1.28
-          command: ['sh', '-c', 'echo -e "Checking for the availability of MYSQL server deployment"; while ! nc -z "fineract-mysql" 3306; do sleep 1; printf "-"; done; echo -e " >> MYSQL server has started";']
+          command: ['sh', '-c', 'echo -e "Checking for the availability of MYSQL server deployment"; while ! nc -z "fineractmysql" 3306; do sleep 1; printf "-"; done; echo -e " >> MYSQL server has started";']
       containers:
-      - name: fineract-server
-        image: "{{ .Values.fineract.image }}"
+      - name: fineract
+        image: us.icr.io/phee-ns/fineract:pentaho-enabled-fineract
         imagePullPolicy: Always
         resources:
           limits:
@@ -82,24 +83,30 @@ spec:
           initialDelaySeconds: 180
           periodSeconds: 1
         env:
-          - name: FINERACT_NODE_ID
+          - name: DRIVERCLASS_NAME
+            value: org.drizzle.jdbc.DrizzleDriver
+          - name: PROTOCOL
+            value: jdbc
+          - name: SUB_PROTOCOL
+            value: mysql:thin
+          - name: node_id
             value: '1'
-          - name: FINERACT_HIKARI_DRIVER_CLASS_NAME
-            value: org.mariadb.jdbc.Driver
-          - name: FINERACT_HIKARI_JDBC_URL
-            value: jdbc:mariadb://fineract-mysql:3306/fineract_tenants
-          - name: FINERACT_HIKARI_USERNAME
+          - name: fineract_tenants_driver
+            value: org.drizzle.jdbc.DrizzleDriver
+          - name: fineract_tenants_url
+            value: jdbc:mysql:thin://fineractmysql:3306/fineract_tenants
+          - name: fineract_tenants_uid
             valueFrom:
               secretKeyRef:
                 name: fineract-tenants-db-secret
                 key: username
-          - name: FINERACT_HIKARI_PASSWORD
+          - name: fineract_tenants_pwd
             valueFrom:
               secretKeyRef:
                 name: fineract-tenants-db-secret
                 key: password
           - name: FINERACT_DEFAULT_TENANTDB_HOSTNAME
-            value: fineract-mysql
+            value: fineractmysql
           - name: FINERACT_DEFAULT_TENANTDB_PORT
             value: '3306'
           - name: FINERACT_DEFAULT_TENANTDB_UID
@@ -118,8 +125,18 @@ spec:
         - containerPort: 8443
           name: fineract-server
 ---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: fineract-tenants-db-secret
+  namespace: pentaho-test
+type: Opaque
+data:
+  username: "bWlmb3M="
+  password: "cGFzc3dvcmQ="
+---
 {{- if .Values.fineract.ingress.enabled }}
-apiVersion: networking.k8s.io/v1
+apiVersion: {{ .Values.fineract.ingress.api }}
 kind: Ingress
 metadata:
   name: fineract-server
@@ -135,22 +152,13 @@ spec:
           - path: /
             pathType: Prefix
             backend:
-              service:
-                name: fineract-server
-                port: 
-                  number: 80
+{{- if .Values.fineract.ingress.backend }}
+{{ toYaml .Values.fineract.ingress.backend | indent 14 }}
+{{- end }}
   tls:
     - hosts:
         - "{{ .Values.wildcardhostname }}"
       secretName: "{{ .Values.tls }}"
 {{- end }}
 ---
-apiVersion: v1
-kind: Secret
-metadata:
-  name: fineract-tenants-db-secret
-type: Opaque
-data:
-  username: "bWlmb3M="
-  password: "cGFzc3dvcmQ="
 
