@@ -1,0 +1,6 @@
+dependencies:
+- name: fin-engine
+  repository: https://fynarfin.io/images/
+  version: 1.0.0-SNAPSHOT
+digest: sha256:81904c804bd36495913c07070357fa83f23ab942987536ea3530024e57abbd66
+generated: "2022-04-02T00:40:34.591883+05:30"

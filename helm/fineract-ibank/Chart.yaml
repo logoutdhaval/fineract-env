@@ -1,0 +1,10 @@
+apiVersion: v1
+appVersion: "1.0"
+description: Fineract-IBM-SIT
+name: fineract-ibm-sit
+version: 1.0.0-SNAPSHOT
+dependencies:
+- name: fin-engine
+  version: 1.0.0-SNAPSHOT
+  repository: https://fynarfin.io/images/
+
