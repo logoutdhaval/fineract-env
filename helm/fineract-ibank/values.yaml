@@ -1,78 +1,79 @@
-namespace: "fineract-ns"
-fineract:
-  DFSPIDS: ""
-  SPRING_PROFILES_ACTIVE: "bb"
-  image: "us.icr.io/fineract-ns/fineract:latest"
-  ingress:
-    enabled: true
-    hostname: "us-pf.ibank.financial"
+fin-engine:
+  namespace: "fineract-ns"
+  fineract:
+    DFSPIDS: ""
+    SPRING_PROFILES_ACTIVE: "bb"
+    image: "us.icr.io/fineract-ns/fineract:latest"
+    ingress:
+      enabled: true
+      hostname: "us-pf.ibank.financial"
 
-communityapp:
-  image: "openmf/community-app:latest"
-  enabled: false
-  ingress:
-    enabled: true
-    hostname: "us.ibank.financial"
-    path: "/"
+  communityapp:
+    image: "openmf/community-app:latest"
+    enabled: false
+    ingress:
+      enabled: true
+      hostname: "us.ibank.financial"
+      path: "/"
 
-communityapp2:
-  image: "openmf/community-app:latest"
-  enabled: false
-  ingress:
-    enabled: true
-    hostname: "in.ibank.financial"
-    path: "/"
-    annotations: 
-      kubernetes.io/ingress.class: "nginx"
+  communityapp2:
+    image: "openmf/community-app:latest"
+    enabled: false
+    ingress:
+      enabled: true
+      hostname: "in.ibank.financial"
+      path: "/"
+      annotations: 
+        kubernetes.io/ingress.class: "nginx"
 
-webapp:
-  image: "us.icr.io/fineract-ns/web-app:latest"
-  enabled: false
-  ingress:
-    enabled: true
-    hostname: "web.ibank.financial"
-    path: "/web"
-    annotations: 
-      kubernetes.io/ingress.class: "nginx"
+  webapp:
+    image: "us.icr.io/fineract-ns/web-app:latest"
+    enabled: false
+    ingress:
+      enabled: true
+      hostname: "web.ibank.financial"
+      path: "/web"
+      annotations: 
+        kubernetes.io/ingress.class: "nginx"
 
-selfservice:
-  image: "us.icr.io/fineract-ns/web-self-service-app:latest"
-  enabled: false
-  ingress:
-    enabled: true
-    hostname: "my.ibank.financial"
-    path: "/self"
-    annotations: 
-      kubernetes.io/ingress.class: "nginx"
-
-
+  selfservice:
+    image: "us.icr.io/fineract-ns/web-self-service-app:latest"
+    enabled: false
+    ingress:
+      enabled: true
+      hostname: "my.ibank.financial"
+      path: "/self"
+      annotations: 
+        kubernetes.io/ingress.class: "nginx"
 
 
-mysql:
-  image:
-    tag: "10.5.15-debian-10-r0"
-    debug: true
-  auth:
-    username: "mifos"
-    password: "password"
-    rootPassword: "4ET6ywqlGt"
-  initdbScripts:
-    setup.sql: |-
-      # create databases
-      CREATE DATABASE IF NOT EXISTS `fineract_tenants`;
-      CREATE DATABASE IF NOT EXISTS `fineract_default`;
-      # create root user and grant rights
-      GRANT ALL ON *.* TO 'root'@'%';
-      GRANT ALL PRIVILEGES ON `fineract_tenants`.* TO 'mifos';
-      GRANT ALL PRIVILEGES ON `fineract_default`.* TO 'mifos';
-  primary:
-    resources:
-      requests:
-        memory: "1Gi"
-        cpu: "1000m"
-      limits:
-        memory: "4Gi"
-        cpu: "2000m"
 
-wildcardhostname: "*.ibank.financial"
-tls: "ibank"  
+
+  mysql:
+    image:
+      tag: "10.5.15-debian-10-r0"
+      debug: true
+    auth:
+      username: "mifos"
+      password: "password"
+      rootPassword: "4ET6ywqlGt"
+    initdbScripts:
+      setup.sql: |-
+        # create databases
+        CREATE DATABASE IF NOT EXISTS `fineract_tenants`;
+        CREATE DATABASE IF NOT EXISTS `fineract_default`;
+        # create root user and grant rights
+        GRANT ALL ON *.* TO 'root'@'%';
+        GRANT ALL PRIVILEGES ON `fineract_tenants`.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON `fineract_default`.* TO 'mifos';
+    primary:
+      resources:
+        requests:
+          memory: "1Gi"
+          cpu: "1000m"
+        limits:
+          memory: "4Gi"
+          cpu: "2000m"
+
+  wildcardhostname: "*.ibank.financial"
+  tls: "ibank"  
