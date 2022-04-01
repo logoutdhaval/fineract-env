@@ -6,18 +6,14 @@ fineract:
   ingress:
     enabled: true
     hostname: "us-pf.ibank.financial"
-    annotations: 
-      kubernetes.io/ingress.class: "nginx"
 
 communityapp:
   image: "openmf/community-app:latest"
-  enabled: true
+  enabled: false
   ingress:
     enabled: true
     hostname: "us.ibank.financial"
     path: "/"
-    annotations: 
-      kubernetes.io/ingress.class: "nginx"
 
 communityapp2:
   image: "openmf/community-app:latest"
