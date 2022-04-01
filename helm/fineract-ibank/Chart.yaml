@@ -6,5 +6,5 @@ version: 1.0.0-SNAPSHOT
 dependencies:
 - name: fin-engine
   version: 1.0.0-SNAPSHOT
-  repository: https://fynarfin.io/images/
+  repository: https://fynarfin.io/images/fineract
 
