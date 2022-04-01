@@ -1,7 +1,9 @@
+{{- if .Values.webapp.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
   name: webapp
+  namespace: {{ .Values.namespace }}
 spec:
   ports:
   - protocol: TCP
@@ -17,6 +19,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: webapp
+  namespace: {{ .Values.namespace }}
   annotations:
 {{- if .Values.webapp.ingress.annotations }}
 {{ toYaml .Values.webapp.ingress.annotations | indent 4 }}
@@ -32,9 +35,10 @@ spec:
               service:
                 name: webapp
                 port: 
-                  number: 80
+             namespace: "{{ .Values.namespace }}"     number: 80
   tls:
     - hosts:
         - "{{ .Values.wildcardhostname }}"
       secretName: "{{ .Values.tls }}"
+{{- end }}
 {{- end }}

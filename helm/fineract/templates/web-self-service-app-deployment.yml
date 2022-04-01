@@ -1,7 +1,9 @@
+{{- if .Values.webapp.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: self-service
+  namespace: "{{ .Values.namespace }}"
   labels:
     app: self-service
 spec:
@@ -43,3 +45,4 @@ spec:
       restartPolicy: Always
 #      serviceAccountName: ""
 #      volumes: null
+{{- end }}
