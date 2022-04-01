@@ -10,7 +10,7 @@ fin-engine:
 
   communityapp:
     image: "openmf/community-app:latest"
-    enabled: false
+    enabled: true
     ingress:
       enabled: true
       hostname: "us.ibank.financial"
