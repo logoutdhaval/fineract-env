@@ -20,7 +20,11 @@ do
         fi
 done
 
+
+
 # Subham changes to directory structure, reporting class and build file.
+cd $CodeDir && cd ./fineract-pentaho
+git checkout ef0729e3ec34015d83b68b34e801d9cc1b75d00c
 cd $CodeDir && cd ./fineract
 git checkout d82560d7b34cbdf9075f5b2d3a39080f23c2e133
 mv ../fineract-pentaho ./
