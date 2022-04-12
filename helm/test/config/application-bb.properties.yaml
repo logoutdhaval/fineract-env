@@ -1,0 +1,6 @@
+ams.groups[0].identifier: "w1"
+ams.groups[0].value: "w2"
+ams.groups[1].identifier: "x1"
+ams.groups[1].value: "x2"
+ams.groups[2].identifier: "y1"
+ams.groups[2].value: "y2"

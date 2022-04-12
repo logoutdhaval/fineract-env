@@ -1,0 +1,1 @@
+helm upgrade -f test/values.yaml test test --install --create-namespace --namespace test

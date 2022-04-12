@@ -1,0 +1,19 @@
+namespace: "test"
+test:
+  enabled: true
+  image: "hello-world:latest"
+  SPRING_PROFILES_ACTIVE: "bb"
+  ams:
+    groups:
+      - identifier: "a"
+        value: "b"
+      - identifier: "c"
+        value: "d"
+      - identifier: "e"
+        value : "f"
+  ingress:
+    enabled: false
+    hostname: ""
+    path: "/test"
+    annotations: 
+      kubernetes.io/ingress.class: "nginx"

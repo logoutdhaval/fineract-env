@@ -1,0 +1,53 @@
+{{- if .Values.test.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test
+  namespace: "{{ .Values.namespace }}"
+  labels:
+    app: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      containers:      
+      - image: "{{ .Values.test.image }}"
+        resources:
+          limits:
+            cpu: "400m"
+            memory: "0.5Gi"
+          requests:
+            cpu: "100m"
+            memory: "0.1Gi"
+        env:
+          - name: "ams"
+            value: " {{ .Values.test.ams }}"   
+          - name: "SPRING_PROFILES_ACTIVE"
+            value: "{{ .Values.test.SPRING_PROFILES_ACTIVE }}"         
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 90
+          periodSeconds: 1
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 90
+          periodSeconds: 1                      
+        imagePullPolicy: Always
+        name: test
+        ports:
+        - containerPort: 80
+        resources: {}
+      restartPolicy: Always
+#      serviceAccountName: ""
+#      volumes: null
+{{- end }}
