@@ -1,4 +1,4 @@
-namespace: "fineract-ns"
+namespace: "default"
 fineract:
   DFSPIDS: ""
   SPRING_PROFILES_ACTIVE: "bb"
