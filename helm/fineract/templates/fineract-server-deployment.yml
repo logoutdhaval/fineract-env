@@ -87,6 +87,8 @@ spec:
           - name: FINERACT_SERVER_PORT
             value: '8443'
           - name: JAVA_TOOL_OPTIONS
+            value: "{{ .Values.fineract.javaopts }}"   
+          - name: JDK_JAVA_OPTIONS
             value: "{{ .Values.fineract.javaopts }}"    
           - name: FINERACT_NODE_ID
             value: '1'
