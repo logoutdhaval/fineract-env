@@ -85,7 +85,7 @@ spec:
           periodSeconds: 1
         env:
           - name: FINERACT_SERVER_PORT
-            value: 8443
+            value: '8443'
           - name: FINERACT_NODE_ID
             value: '1'
           - name: FINERACT_HIKARI_DRIVER_CLASS_NAME
