@@ -74,18 +74,20 @@ spec:
         livenessProbe:
           httpGet:
             path: /fineract-provider/actuator/health/liveness
-            port: 8080
+            port: 8443
           initialDelaySeconds: 180
           periodSeconds: 1
         readinessProbe:
           httpGet:
             path: /fineract-provider/actuator/health/readiness
-            port: 8080
+            port: 8443  
           initialDelaySeconds: 180
           periodSeconds: 1
         env:
           - name: FINERACT_SERVER_PORT
             value: '8443'
+          - name: JAVA_OPTS
+            value: "{{ .Values.fineract.javaopts }}"    
           - name: FINERACT_NODE_ID
             value: '1'
           - name: FINERACT_HIKARI_DRIVER_CLASS_NAME
