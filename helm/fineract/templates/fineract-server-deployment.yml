@@ -66,11 +66,11 @@ spec:
         imagePullPolicy: Always
         resources:
           limits:
-            cpu: "1000m"
-            memory: "1Gi"
+            cpu: "{{ .Values.fineract.resources.limits.cpu }}"
+            memory: "{{ .Values.fineract.resources.limits.memory }}"
           requests:
-            cpu: "200m"
-            memory: "0.5Gi"
+            cpu: "{{ .Values.fineract.resources.requests.cpu }}"
+            memory: "{{ .Values.fineract.resources.requests.memory }}"
         livenessProbe:
           httpGet:
             path: /fineract-provider/actuator/health/liveness
