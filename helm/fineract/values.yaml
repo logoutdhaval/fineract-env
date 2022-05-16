@@ -8,6 +8,7 @@ fineract:
     hostname: ""
     annotations: 
       kubernetes.io/ingress.class: "nginx"
+  javaopts: "-Xms1G -Xmx2G"
 
 communityapp:
   image: "openmf/community-app:latest"
