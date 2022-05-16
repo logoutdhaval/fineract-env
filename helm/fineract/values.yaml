@@ -15,7 +15,7 @@ fineract:
       memory: "8Gi"
     requests:
       cpu: "200m"
-      memory: "4Gi"
+      memory: "8Gi"
 
 communityapp:
   image: "openmf/community-app:latest"
