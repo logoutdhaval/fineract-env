@@ -8,7 +8,7 @@ fineract:
     hostname: ""
     annotations: 
       kubernetes.io/ingress.class: "nginx"
-  javaopts: "-Xms1G -Xmx2G"
+  javaopts: "-D -Xms1G -Xmx1700m"
   resources:
     limits:
       cpu: "1000m"
