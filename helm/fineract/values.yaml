@@ -21,7 +21,7 @@ communityapp:
   image: "us.icr.io/phee-ns/community-app:latest"
   ingress:
     enabled: true
-    hostname: "community-app.ibank.com"
+    hostname: "communityapp.ibank.com"
     path: "/community"
     annotations: 
       kubernetes.io/ingress.class: "nginx"
