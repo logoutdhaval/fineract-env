@@ -4,8 +4,8 @@ fineract:
   SPRING_PROFILES_ACTIVE: "bb"
   image: "us.icr.io/phee-ns/fineract:latest"
   ingress:
-    enabled: false
-    hostname: ""
+    enabled: true
+    hostname: "ams.ibank.com"
     annotations: 
       kubernetes.io/ingress.class: "nginx"
   resources:
@@ -17,10 +17,11 @@ fineract:
       memory: "0.5Gi"
 
 communityapp:
-  image: "openmf/community-app:latest"
+  enabled: true
+  image: "us.icr.io/phee-ns/community-app:latest"
   ingress:
-    enabled: false
-    hostname: ""
+    enabled: true
+    hostname: "community-app.ibank.com"
     path: "/community"
     annotations: 
       kubernetes.io/ingress.class: "nginx"
