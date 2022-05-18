@@ -110,7 +110,7 @@ spec:
                   number: 9090
   tls:
     - hosts:
-        - "{{ .Values.wildcardhostname }}"
+        - "{{ .Values.communityapp.ingress.wildcardhostname }}"
       secretName: "{{ .Values.tls }}"
 {{- end }}
 {{- end}}

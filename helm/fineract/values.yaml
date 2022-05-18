@@ -18,12 +18,13 @@ fineract:
       memory: "0.5Gi"
 
 communityapp:
-  enabled: false
+  enabled: true
   image: "us.icr.io/phee-ns/community-app:latest"
   ingress:
-    enabled: false
+    enabled: true
     hostname: "communityapp.ibank.com"
     path: "/community"
+    wildcardhostname: "communityapp.ibank.com"
     annotations: 
       kubernetes.io/ingress.class: "nginx"
 
