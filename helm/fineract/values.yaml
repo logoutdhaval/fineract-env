@@ -17,10 +17,10 @@ fineract:
       memory: "0.5Gi"
 
 communityapp:
-  enabled: true
+  enabled: false
   image: "us.icr.io/phee-ns/community-app:latest"
   ingress:
-    enabled: true
+    enabled: false
     hostname: "communityapp.ibank.com"
     path: "/community"
     annotations: 
