@@ -4,7 +4,8 @@ description: Fineract Engine
 name: fin-engine
 version: 1.0.0-SNAPSHOT
 dependencies:
-- name: fin-engine
-  version: 1.0.0-SNAPSHOT
-  repository: https://fynarfin.io/images/fineract
+- name: mariadb
+  version: 10.3.5
+  repository: "https://charts.bitnami.com/bitnami"
+  alias: mysql
 
