@@ -71,18 +71,6 @@ spec:
           requests:
             cpu: "{{ .Values.fineract.resources.requests.cpu }}"
             memory: "{{ .Values.fineract.resources.requests.memory }}"
-        livenessProbe:
-          httpGet:
-            path: /fineract-provider/actuator/health/liveness
-            port: 8080
-          initialDelaySeconds: 180
-          periodSeconds: 1
-        readinessProbe:
-          httpGet:
-            path: /fineract-provider/actuator/health/readiness
-            port: 8080 
-          initialDelaySeconds: 180
-          periodSeconds: 1
         env:
           - name: FINERACT_SERVER_PORT
             value: '8443'   
