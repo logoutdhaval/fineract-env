@@ -7,8 +7,7 @@ fineract:
     enabled: true
     hostname: "ams.ibank.financial"
     wildcardhostname: "ams.ibank.financial"
-    annotations: 
-      kubernetes.io/ingress.class: "nginx"
+    annotations: {}
   resources:
     limits:
       cpu: "1000m"
@@ -25,8 +24,7 @@ communityapp:
     hostname: "communityapp.ibank.financial"
     path: "/community"
     wildcardhostname: "communityapp.ibank.financial"
-    annotations: 
-      kubernetes.io/ingress.class: "nginx"
+    annotations: {}
 
 webapp:
   image: "us.icr.io/phee-ns/web-app:latest"
@@ -34,8 +32,7 @@ webapp:
     enabled: false
     hostname: ""
     path: "/web"
-    annotations: 
-      kubernetes.io/ingress.class: "nginx"
+    annotations: {}
 
 selfservice:
   image: "us.icr.io/phee-ns/web-self-service-app:latest"
@@ -43,8 +40,7 @@ selfservice:
     enabled: false
     hostname: ""
     path: "/self"
-    annotations: 
-      kubernetes.io/ingress.class: "nginx"
+    annotations: {}
 
 
 
