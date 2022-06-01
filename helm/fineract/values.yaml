@@ -26,6 +26,14 @@ communityapp:
     path: "/community"
     wildcardhostname: "communityapp.ibank.financial"
     annotations: {}
+      kubernetes.io/ingress.class: "nginx"
+  resources:
+    limits:
+      cpu: "500m"
+      memory: "1Gi"
+    requests:
+      cpu: "200m"
+      memory: "0.5Gi"
 
 webapp:
   image: "us.icr.io/phee-ns/web-app:latest"
@@ -34,6 +42,14 @@ webapp:
     hostname: ""
     path: "/web"
     annotations: {}
+      kubernetes.io/ingress.class: "nginx"
+  resources:
+    limits:
+      cpu: "500m"
+      memory: "1Gi"
+    requests:
+      cpu: "200m"
+      memory: "0.5Gi" 
 
 selfservice:
   image: "us.icr.io/phee-ns/web-self-service-app:latest"
