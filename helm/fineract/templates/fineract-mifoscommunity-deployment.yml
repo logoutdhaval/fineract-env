@@ -65,11 +65,11 @@ spec:
         image: "{{ .Values.communityapp.image }}"
         resources:
           limits:
-            cpu: "1000m"
-            memory: "1Gi"
+            cpu: "{{ .Values.communityapp.resources.limits.cpu }}"
+            memory: "{{ .Values.communityapp.resources.limits.memory }}"
           requests:
-            cpu: "200m"
-            memory: "0.5Gi"
+            cpu: "{{ .Values.communityapp.resources.requests.cpu }}"
+            memory: "{{ .Values.communityapp.resources.requests.memory}}"
         livenessProbe:
           httpGet:
             path: /
