@@ -20,11 +20,11 @@ spec:
       - image: "{{ .Values.webapp.image }}"
         resources:
           limits:
-            cpu: "1000m"
-            memory: "1Gi"
+            cpu: "{{ .Values.webapp.resources.limits.cpu }}"
+            memory: "{{ .Values.webapp.resources.limits.memory }}"
           requests:
-            cpu: "200m"
-            memory: "0.5Gi"
+            cpu: "{{ .Values.webapp.resources.requests.cpu }}"
+            memory: "{{ .Values.webapp.resources.requests.memory }}"
         livenessProbe:
           httpGet:
             path: /
