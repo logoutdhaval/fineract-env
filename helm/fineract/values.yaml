@@ -2,7 +2,7 @@ namespace: "default"
 fineract:
   DFSPIDS: ""
   SPRING_PROFILES_ACTIVE: "bb"
-  image: "us.icr.io/phee-ns/fineract:latest"
+  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract/phee-ns/fineract:latest"
   ingress:
     enabled: true
     hostname: "ams.ibank.financial"
@@ -19,7 +19,7 @@ fineract:
 
 communityapp:
   enabled: true
-  image: "us.icr.io/phee-ns/community-app:latest"
+  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract/phee-ns/community-app:latest"
   ingress:
     enabled: true
     hostname: "communityapp.ibank.financial"
