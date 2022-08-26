@@ -2,7 +2,7 @@ namespace: "default"
 fineract:
   DFSPIDS: ""
   SPRING_PROFILES_ACTIVE: "bb"
-  image: "us.icr.io/phee-ns/fineract:latest"
+  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract:latest"
   ingress:
     enabled: true
     hostname: "ams.ibank.financial"
@@ -19,7 +19,7 @@ fineract:
 
 communityapp:
   enabled: true
-  image: "us.icr.io/phee-ns/community-app:latest"
+  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/community-app:latest"
   ingress:
     enabled: true
     hostname: "communityapp.ibank.financial"
@@ -36,7 +36,7 @@ communityapp:
       memory: "0.5Gi"
 
 webapp:
-  image: "us.icr.io/phee-ns/web-app:latest"
+  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract/phee-ns/web-app:latest"
   ingress:
     enabled: false
     hostname: ""
@@ -52,7 +52,7 @@ webapp:
       memory: "0.5Gi" 
 
 selfservice:
-  image: "us.icr.io/phee-ns/web-self-service-app:latest"
+  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract/phee-ns/web-self-service-app:latest"
   ingress:
     enabled: false
     hostname: ""
