@@ -5,8 +5,8 @@ fineract:
   image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract/phee-ns/fineract:latest"
   ingress:
     enabled: true
-    hostname: "ams.ibank.financial"
-    wildcardhostname: "ams.ibank.financial"
+    hostname: "fynams.fynarfin.io"
+    wildcardhostname: "fynams.fynarfin.io"
     annotations: 
       nginx.ingress.kubernetes.io/backend-protocol: https
   resources:
