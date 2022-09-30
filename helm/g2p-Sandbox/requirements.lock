@@ -1,0 +1,6 @@
+dependencies:
+- name: fin-engine
+  repository: https://fynarfin.io/images/fineract
+  version: 1.0.0-SNAPSHOT
+digest: sha256:7b4efca90d14b8913b25ce92686fb4602c1416800c634e3b4129e5bd886d757b
+generated: "2022-09-22T19:08:18.889262+05:30"
