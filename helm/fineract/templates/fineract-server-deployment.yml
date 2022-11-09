@@ -106,6 +106,8 @@ spec:
                 key: password
           - name: FINERACT_DEFAULT_TENANTDB_CONN_PARAMS
             value: ''
+          - name: JAVA_TOOL_OPTIONS
+            value: '-Xmx2G'
         ports:
         - containerPort: 8443
           name: fineract-server
