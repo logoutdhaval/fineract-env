@@ -24,3 +24,34 @@ fin-engine:
     ingress:
       enabled: false
       hostname: "webapp.mifos.g2pconnect.io"
+  mariadb:
+    fullnameOverride: fineract-mysql
+    image:
+      tag: "10.5.15-debian-10-r0"
+      debug: true
+    auth:
+      username: "mifos"
+      password: "password"
+      rootPassword: "4ET6ywqlGt"
+    initdbScripts:
+      setup.sql: |-
+        # create databases
+        CREATE DATABASE IF NOT EXISTS `fineract_tenants`;
+        CREATE DATABASE IF NOT EXISTS `fineract_default`;
+        CREATE DATABASE IF NOT EXISTS `gorilla`;
+        CREATE DATABASE IF NOT EXISTS `rhino`;
+        # create root user and grant rights
+        GRANT ALL ON *.* TO 'root'@'%';
+        GRANT ALL PRIVILEGES ON `fineract_tenants`.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON `fineract_default`.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON `gorilla`.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON `rhino`.* TO 'mifos';
+    primary:
+      resources:
+        requests:
+          memory: "0.5Gi"
+          cpu: "500m"
+        limits:
+          memory: "2Gi"
+          cpu: "1000m"
+
