@@ -11,21 +11,7 @@ fin-engine:
         memory: "2Gi"
       requests:
         cpu: "200m"
-        memory: "0.5Gi"
-
-  fineract1:
-    DFSPIDS: "rhino,gorilla"
-    ingress:
-      enabled: true
-      hostname: "gorilla.mifos.g2pconnect.io"
-      wildcardhostname: "gorilla.mifos.g2pconnect.io"
-    resources:
-      limits:
-        cpu: "1000m"
-        memory: "2Gi"
-      requests:
-        cpu: "200m"
-        memory: "0.5Gi"      
+        memory: "0.5Gi"     
 
   communityapp:
     enabled: true
