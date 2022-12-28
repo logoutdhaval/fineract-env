@@ -38,14 +38,10 @@ fin-engine:
       setup.sql: |-
         # create databases
         CREATE DATABASE IF NOT EXISTS `fineract_tenants`;
-        CREATE DATABASE IF NOT EXISTS `fineract_default`;
-        CREATE DATABASE IF NOT EXISTS `gorilla`;
         CREATE DATABASE IF NOT EXISTS `rhino`;
         # create root user and grant rights
         GRANT ALL ON *.* TO 'root'@'%';
         GRANT ALL PRIVILEGES ON `fineract_tenants`.* TO 'mifos';
-        GRANT ALL PRIVILEGES ON `fineract_default`.* TO 'mifos';
-        GRANT ALL PRIVILEGES ON `gorilla`.* TO 'mifos';
         GRANT ALL PRIVILEGES ON `rhino`.* TO 'mifos';
     primary:
       resources:
