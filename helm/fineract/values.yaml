@@ -3,13 +3,20 @@ fineract:
   DFSPIDS: ""
   SPRING_PROFILES_ACTIVE: "bb"
   image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract:latest"
+  spec: 
+    template:
+       spec:
+         containers:
+            env:
+               FINERACT_DEFAULT_TENANTDB_IDENTIFIER: "default"
+               FINERACT_DEFAULT_TENANTDB_NAME: "fineract_default"
   ingress:
     enabled: true
     hostname: "fynams.sandbox.fynarfin.io"
     path: "/"
     wildcardhostname: "fynams.sandbox.fynarfin.io"
     annotations:
-      kubernetes.io/ingress.class: "nginx"
+      kubernetes.io/ingress.class: "nginx"  
   resources:
     limits:
       cpu: "1000m"

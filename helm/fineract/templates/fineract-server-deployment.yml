@@ -50,7 +50,7 @@ spec:
       tier: backend
   strategy:
     type: Recreate
-  template:
+  template: 
     metadata:
       labels:
         app: fineract-server
@@ -60,7 +60,7 @@ spec:
         - name: init-mydb
           image: busybox:1.28
           command: ['sh', '-c', 'echo -e "Checking for the availability of MYSQL server deployment"; while ! nc -z "fineract-mysql" 3306; do sleep 1; printf "-"; done; echo -e " >> MYSQL server has started";']
-      containers:
+      containers: 
       - name: fineract-server
         image: "{{ .Values.fineract.image }}"
         imagePullPolicy: Always
@@ -94,6 +94,10 @@ spec:
             value: fineract-mysql
           - name: FINERACT_DEFAULT_TENANTDB_PORT
             value: '3306'
+          - name: FINERACT_DEFAULT_TENANTDB_IDENTIFIER
+            value:  "{{ .Values.fineract.spec.template.spec.containers.env.FINERACT_DEFAULT_TENANTDB_IDENTIFIER }}" 
+          - name: FINERACT_DEFAULT_TENANTDB_NAME
+            value:   "{{ .Values.fineract.spec.template.spec.containers.env.FINERACT_DEFAULT_TENANTDB_NAME}}"
           - name: FINERACT_DEFAULT_TENANTDB_UID
             valueFrom:
               secretKeyRef:
