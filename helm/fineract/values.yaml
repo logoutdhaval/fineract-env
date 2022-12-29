@@ -71,7 +71,9 @@ selfservice:
 
 
 mysql:
-  
+  image:
+    tag: "10.5.16-debian-11-r22"
+    debug: true
   auth:
     username: "mifos"
     password: "password"
