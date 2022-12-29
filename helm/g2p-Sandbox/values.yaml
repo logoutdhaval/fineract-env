@@ -2,12 +2,12 @@ fin-engine:
   fineract:
     DFSPIDS: "rhino,gorilla"
     spec: 
-    template:
-      spec:
-        containers:
-          env:
-            FINERACT_DEFAULT_TENANTDB_IDENTIFIER: "rhino"
-            FINERACT_DEFAULT_TENANTDB_NAME: "rhino"
+      template:
+        spec:
+          containers:
+            env:
+              - FINERACT_DEFAULT_TENANTDB_IDENTIFIER: "rhino"
+              - FINERACT_DEFAULT_TENANTDB_NAME: "rhino"
     ingress:
       enabled: true
       hostname: "rhino.mifos.g2pconnect.io"
