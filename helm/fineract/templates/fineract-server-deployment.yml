@@ -113,6 +113,10 @@ spec:
         ports:
         - containerPort: 8443
           name: fineract-server
+        lifecycle:
+            postStart:
+              exec:
+                command: ['sh', '-c', 'echo -e "Checking for the availability of MYSQL server deployment";']
 ---
 {{- if .Values.fineract.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
