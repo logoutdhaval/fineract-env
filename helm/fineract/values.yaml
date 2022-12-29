@@ -8,8 +8,8 @@ fineract:
        spec:
          containers:
             env:
-               - FINERACT_DEFAULT_TENANTDB_IDENTIFIER: "default"
-               - FINERACT_DEFAULT_TENANTDB_NAME: "fineract_default"
+              FINERACT_DEFAULT_TENANTDB_IDENTIFIER: "default"
+              FINERACT_DEFAULT_TENANTDB_NAME: "fineract_default"
   ingress:
     enabled: true
     hostname: "fynams.sandbox.fynarfin.io"
