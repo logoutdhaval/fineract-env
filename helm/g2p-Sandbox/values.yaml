@@ -40,9 +40,7 @@ fin-engine:
     initdbScripts:
       setup.sh: |-
         #!/bin/sh 
-        apt update
-        apt install wget
-        wget -O fineract_tenants_backup.sql "https://fynarfin.io/images/fineract/fineract_tenants_backup.sql";
+        curl -O fineract_tenants_backup.sql "https://fynarfin.io/images/fineract/fineract_tenants_backup.sql";
         mysql -P 3306 -u root -p4ET6ywqlGt < "fineract_tenants_backup.sql"
          
         
