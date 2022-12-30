@@ -36,6 +36,8 @@ fin-engine:
     image:
       tag: "10.5.16-debian-11-r22"
     primary:
+      podSecurityContext:
+        enabled: false
       containerSecurityContext:
         runAsNonRoot: false
     debug: true 
