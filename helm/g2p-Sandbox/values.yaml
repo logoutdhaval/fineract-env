@@ -12,6 +12,8 @@ fin-engine:
       enabled: true
       hostname: "rhino.mifos.g2pconnect.io"
       wildcardhostname: "rhino.mifos.g2pconnect.io"
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        more_set_headers "fineract-platform-tenantid: rhino";
     resources:
       limits:
         cpu: "1000m"
