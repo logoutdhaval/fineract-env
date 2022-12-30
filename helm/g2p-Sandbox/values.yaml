@@ -31,7 +31,12 @@ fin-engine:
     ingress:
       enabled: false
       hostname: "webapp.mifos.g2pconnect.io"
+      
   mariadb:
+    image:
+      tag: "10.5.16-debian-11-r22"
+    user: root  
+    debug: true 
     fullnameOverride: fineract-mysql
     auth:
       username: "mifos"
