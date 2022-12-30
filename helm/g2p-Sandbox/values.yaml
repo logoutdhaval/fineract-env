@@ -38,16 +38,12 @@ fin-engine:
       password: "password"
       rootPassword: "4ET6ywqlGt"
     initdbScripts:
-      setup.sql: |-
-        # create databases
-        CREATE DATABASE IF NOT EXISTS `fineract_tenants`;
-        CREATE DATABASE IF NOT EXISTS `gorilla`;
-        CREATE DATABASE IF NOT EXISTS `rhino`;
-        # create root user and grant rights
-        GRANT ALL ON *.* TO 'root'@'%';
-        GRANT ALL PRIVILEGES ON `fineract_tenants`.* TO 'mifos';
-        GRANT ALL PRIVILEGES ON `gorilla`.* TO 'mifos';
-        GRANT ALL PRIVILEGES ON `rhino`.* TO 'mifos';
+      setup.sh: |-
+        #!/bin/sh 
+        wget -O fineract_tenants_backup.sql "https://fynarfin.io/images/fineract/fineract_tenants_backup.sql";
+        mysql -P 3306 -u root -p4ET6ywqlGt < "fineract_tenants_backup.sql"
+         
+        
     primary:
       resources:
         requests:
