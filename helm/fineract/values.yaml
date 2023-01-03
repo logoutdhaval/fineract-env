@@ -10,7 +10,7 @@ fineract:
             env:
               FINERACT_DEFAULT_TENANTDB_IDENTIFIER: "default"
               FINERACT_DEFAULT_TENANTDB_NAME: "fineract_default"
-  postStartScript: "echo -e '******Fineract is Started successfully********';"
+  postStartScript: 'echo -e "******Fineract is Started successfully********";'
   ingress:
     enabled: true
     hostname: "fynams.sandbox.fynarfin.io"
