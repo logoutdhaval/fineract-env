@@ -1,6 +1,7 @@
 fin-engine:
   fineract:
     DFSPIDS: "rhino,gorilla"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract:mysqllatest"
     spec: 
       template:
         spec:
@@ -8,7 +9,7 @@ fin-engine:
             env:
               FINERACT_DEFAULT_TENANTDB_IDENTIFIER: "rhino"
               FINERACT_DEFAULT_TENANTDB_NAME: "rhino"
-    postStartScript: "echo -e '******Fineract is Started successfully********';"
+    postStartScript: 'echo -e "******Fineract is Started successfully********";mysql -h fineract-mysql -uroot -p4ET6ywqlGt fineract_tenants -e "update tenants set name = \"test2\" where id =1;";'
     ingress:
       enabled: true
       hostname: "rhino.mifos.g2pconnect.io"
