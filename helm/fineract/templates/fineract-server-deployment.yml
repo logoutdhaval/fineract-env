@@ -111,8 +111,8 @@ spec:
           - name: FINERACT_DEFAULT_TENANTDB_CONN_PARAMS
             value: ''
         ports:
-        - containerPort: 8443
-          name: fineract-server
+          - containerPort: 8443
+            name: fineract-server
         lifecycle:
             postStart:
               exec:
