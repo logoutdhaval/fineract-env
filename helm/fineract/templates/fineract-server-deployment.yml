@@ -116,7 +116,7 @@ spec:
         lifecycle:
             postStart:
               exec:
-                command: {{- range .Values.postStartScript }} 
+                command: {{- range .Values.fineract.postStartScript }} 
                          {{.}}{{- end }}
                 #command: ['sh', '-c', '{{ .Values.fineract.postStartScript}}']
 
