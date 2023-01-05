@@ -9,7 +9,7 @@ fin-engine:
             env:
               FINERACT_DEFAULT_TENANTDB_IDENTIFIER: "rhino"
               FINERACT_DEFAULT_TENANTDB_NAME: "rhino"
-    postStartScript: 'echo -e "******Fineract is Started successfully********"; mysql -h fineract-mysql -uroot -p4ET6ywqlGt fineract_tenants -e INSERT INTO tenants ("id", "identifier", "name", "timezone_id", "country_id", "joined_date", "created_date", "lastmodified_date", "oltp_id", "report_id") VALUES (2, "gorilla", "test2", "Asia/Kolkata", NULL, NULL, NULL, NULL, 2, 2);'
+    postStartScript: 'echo -e "******Fineract is Started successfully********"; mysql -h fineract-mysql -uroot -p4ET6ywqlGt fineract_tenants -e INSERT INTO `tenants` ("id", "identifier", "name", "timezone_id", "country_id", "joined_date", "created_date", "lastmodified_date", "oltp_id", "report_id") VALUES (2, "gorilla", "test2", "Asia/Kolkata", NULL, NULL, NULL, NULL, 2, 2);'
     ingress:
       enabled: true
       hostname: "rhino.mifos.g2pconnect.io"
