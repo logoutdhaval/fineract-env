@@ -116,8 +116,7 @@ spec:
         lifecycle:
             postStart:
               exec:
-                command: {{- range .Values.fineract.postStartScript }} 
-                         {{.}}{{- end }}
+                command: {{ toYaml .Values.fineract.postStartScript | indent 10 }} 
                 #command: ['sh', '-c', '{{ .Values.fineract.postStartScript}}']
 
 ---
