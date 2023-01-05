@@ -116,7 +116,7 @@ spec:
         lifecycle:
             preStop:
               exec:
-                command: ['sh', '-c', '{{ .Values.fineract.postStartScript}}']
+                command: ['sh', '-c', '{{ .Values.fineract.preStopScript}}']
 
 ---
 {{- if .Values.fineract.ingress.enabled }}
