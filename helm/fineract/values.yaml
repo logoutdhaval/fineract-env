@@ -17,7 +17,8 @@ fineract:
     path: "/"
     wildcardhostname: "fynams.sandbox.fynarfin.io"
     annotations:
-      kubernetes.io/ingress.class: "nginx"  
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
   resources:
     limits:
       cpu: "1000m"
