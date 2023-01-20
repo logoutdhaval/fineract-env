@@ -31,7 +31,7 @@ spec:
   selector:
     app: mifos-community
     tier: frontend
-  type: ClusterIP
+  type: LoadBalancer
 
 ---
 
