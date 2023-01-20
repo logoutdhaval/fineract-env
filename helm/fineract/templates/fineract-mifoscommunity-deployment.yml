@@ -28,7 +28,6 @@ spec:
   ports:
   - protocol: TCP
     port: 9090
-    targetPort: 80
   selector:
     app: mifos-community
     tier: frontend
@@ -105,7 +104,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: communityapp
+                name: mifos-community
                 port: 
                   number: 9090    
   tls:
