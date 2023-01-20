@@ -28,6 +28,7 @@ spec:
   ports:
   - protocol: TCP
     port: 9090
+    targetPort: 80
   selector:
     app: mifos-community
     tier: frontend
