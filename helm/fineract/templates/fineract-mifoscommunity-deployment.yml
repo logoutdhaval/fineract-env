@@ -108,6 +108,7 @@ spec:
                 name: communityapp
                 port: 
                   number: 9090
+              servicePort: http    
   tls:
     - hosts:
         - "{{ .Values.communityapp.ingress.wildcardhostname }}"
