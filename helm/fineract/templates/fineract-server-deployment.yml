@@ -134,7 +134,7 @@ spec:
     - host: "{{ .Values.fineract.ingress.hostname }}"
       http:
         paths:
-          - path: /
+          - path: "{{ .Values.fineract.ingress.path }}"
             pathType: Prefix
             backend:
               service:
