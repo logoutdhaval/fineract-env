@@ -13,8 +13,7 @@ fineract:
   preStopScript: 'echo -e "******Fineract is stopping********";'
   ingress:
     enabled: true
-    tenant1name: "ibank-india.sandbox.fynarfin.io"
-    tenant2name: "ibank-usa.sandbox.fynarfin.io"
+    hostname: "fynams.sandbox.fynarfin.io"
     path: "/"
     wildcardhostname: "*.sandbox.fynarfin.io"
     annotations:
