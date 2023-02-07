@@ -141,8 +141,6 @@ spec:
                 name: fineract-server
                 port: 
                   number: 8443
-                     
-                  
   tls:
     - hosts:
         - "{{ .Values.fineract.ingress.wildcardhostname }}"

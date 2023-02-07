@@ -107,7 +107,7 @@ spec:
               service:
                 name: mifos-community
                 port: 
-                  number: 9090    
+                  number: 9090
   tls:
     - hosts:
         - "{{ .Values.communityapp.ingress.wildcardhostname }}"
