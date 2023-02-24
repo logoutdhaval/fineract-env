@@ -5,7 +5,7 @@ name: fin-engine
 version: 1.0.0-SNAPSHOT
 dependencies:
 - name: mariadb
-  version: 11.4.6
+  version: 11.5.0
   repository: "https://charts.bitnami.com/bitnami"
   alias: mysql
 
