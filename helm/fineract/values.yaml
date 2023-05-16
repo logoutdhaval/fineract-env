@@ -73,6 +73,7 @@ selfservice:
 
 
 mysql:
+  enabled: false
   image:
     tag: "10.5.16-debian-11-r22"
     debug: true

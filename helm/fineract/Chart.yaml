@@ -8,4 +8,5 @@ dependencies:
   version: 11.5.0
   repository: "https://charts.bitnami.com/bitnami"
   alias: mysql
+  condition: mysql.enabled
 
