@@ -1,5 +1,6 @@
 namespace: "fineract"
 fineract:
+  db: fineract-mysql
   DFSPIDS: ""
   SPRING_PROFILES_ACTIVE: "bb"
   image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract:latest"
@@ -10,6 +11,10 @@ fineract:
             env:
               FINERACT_DEFAULT_TENANTDB_IDENTIFIER: "default"
               FINERACT_DEFAULT_TENANTDB_NAME: "fineract_default"
+              FINERACT_DEFAULT_TENANTDB_HOSTNAME: "fineract-mysql"
+              FINERACT_DEFAULT_TENANTDB_PORT: "3306"
+              FINERACT_HIKARI_DRIVER_CLASS_NAME: org.mariadb.jdbc.Driver
+              FINERACT_HIKARI_JDBC_URL: jdbc:mariadb://fineract-mysql:3306/fineract_tenants
   preStopScript: 'echo -e "******Fineract is stopping********";'
   ingress:
     enabled: true
