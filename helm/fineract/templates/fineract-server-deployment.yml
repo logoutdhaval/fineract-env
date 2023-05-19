@@ -16,14 +16,13 @@
 # under the License.
 #
 
-
+{{- if .Values.fineract.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     app: fineract-server
   name: fineract-server
-  namespace: "{{ .Values.namespace }}"
 spec:
   ports:
   - protocol: TCP
@@ -40,7 +39,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fineract-server
-  namespace: "{{ .Values.namespace }}"
   labels:
     app: fineract-server
 spec:
@@ -124,7 +122,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: fineract-server
-  namespace: "{{ .Values.namespace }}"
   annotations:
 {{- if .Values.fineract.ingress.annotations }}
 {{ toYaml .Values.fineract.ingress.annotations | indent 4 }}
@@ -151,9 +148,9 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: fineract-tenants-db-secret
-  namespace: "{{ .Values.namespace }}"
 type: Opaque
 data:
   username: "bWlmb3M="
   password: "cGFzc3dvcmQ="
+{{- end}}
 
