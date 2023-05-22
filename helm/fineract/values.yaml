@@ -1,5 +1,5 @@
-namespace: "fineract"
 fineract:
+  enabled: true
   db: fineract-mysql
   DFSPIDS: ""
   SPRING_PROFILES_ACTIVE: "bb"
@@ -78,6 +78,7 @@ selfservice:
 
 
 mysql:
+  fullnameOverride: fineract-mysql
   enabled: false
   image:
     tag: "10.5.16-debian-11-r22"
