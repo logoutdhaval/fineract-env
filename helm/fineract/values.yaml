@@ -3,7 +3,7 @@ fineract:
   db: fineract-mysql
   DFSPIDS: ""
   SPRING_PROFILES_ACTIVE: "bb"
-  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract:latest"
+  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract:1.8.2"
   spec: 
     template:
        spec:
