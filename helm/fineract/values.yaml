@@ -34,6 +34,7 @@ fineract:
 
 communityapp:
   enabled: true
+  lookforservice: true
   image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/community-app:latest"
   ingress:
     enabled: true
