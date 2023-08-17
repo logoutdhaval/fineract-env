@@ -26,8 +26,8 @@ metadata:
 spec:
   ports:
   - protocol: TCP
-    port: 8443
-    targetPort: 8443
+    port: {{ .Values.fineract.spec.template.spec.containers.env.FINERACT_SERVER_PORT }}
+    targetPort: {{ .Values.fineract.spec.template.spec.containers.env.FINERACT_SERVER_PORT }}
   selector:
     app: fineract-server
     tier: backend
@@ -71,7 +71,7 @@ spec:
             memory: "{{ .Values.fineract.resources.requests.memory }}"
         env:
           - name: FINERACT_SERVER_PORT
-            value: '8443'   
+            value: "{{ .Values.fineract.spec.template.spec.containers.env.FINERACT_SERVER_PORT }}"
           - name: FINERACT_NODE_ID
             value: '1'
           - name: FINERACT_HIKARI_DRIVER_CLASS_NAME
@@ -109,7 +109,7 @@ spec:
           - name: FINERACT_DEFAULT_TENANTDB_CONN_PARAMS
             value: ''
         ports:
-          - containerPort: 8443
+          - containerPort: {{ .Values.fineract.spec.template.spec.containers.env.FINERACT_SERVER_PORT }}
             name: fineract-server
         lifecycle:
             preStop:
@@ -137,7 +137,7 @@ spec:
               service:
                 name: fineract-server
                 port: 
-                  number: 8443
+                  number: {{ .Values.fineract.spec.template.spec.containers.env.FINERACT_SERVER_PORT }}
   tls:
     - hosts:
         - "{{ .Values.fineract.ingress.wildcardhostname }}"
