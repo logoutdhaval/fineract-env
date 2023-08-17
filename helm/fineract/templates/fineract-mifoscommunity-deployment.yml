@@ -58,7 +58,7 @@ spec:
       initContainers:
         - name: init-myservice
           image: busybox:1.28
-          command: ['sh', '-c', 'echo -e "Checking for the availability of Fineract server deployment"; while ! nc -z "fineract-server" 8443; do sleep 1; printf "-"; done; echo -e " >> Fineract server has started";']
+          command: ['sh', '-c', 'echo -e "Checking for the availability of Fineract server deployment"; while ! nc -z "fineract-server" {{ .Values.fineract.spec.template.spec.containers.env.FINERACT_SERVER_PORT }}; do sleep 1; printf "-"; done; echo -e " >> Fineract server has started";']
   {{- end}}
       containers:
       - name: mifos-community
