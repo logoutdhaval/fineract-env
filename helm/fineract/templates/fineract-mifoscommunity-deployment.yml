@@ -31,7 +31,7 @@ spec:
   selector:
     app: mifos-community
     tier: frontend
-  type: LoadBalancer
+  type: {{.Values.communityapp.type}}
 
 ---
 

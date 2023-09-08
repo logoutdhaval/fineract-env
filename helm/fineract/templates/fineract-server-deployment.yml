@@ -31,7 +31,7 @@ spec:
   selector:
     app: fineract-server
     tier: backend
-  type: LoadBalancer
+  type: {{.Values.fineract.type}}
 
 ---
 
@@ -96,6 +96,8 @@ spec:
             value:  "{{ .Values.fineract.spec.template.spec.containers.env.FINERACT_DEFAULT_TENANTDB_IDENTIFIER }}" 
           - name: FINERACT_DEFAULT_TENANTDB_NAME
             value:   "{{ .Values.fineract.spec.template.spec.containers.env.FINERACT_DEFAULT_TENANTDB_NAME}}"
+          - name: FINERACT_SERVER_SSL_ENABLED
+            value: "{{.Values.fineract.spec.template.spec.containers.env.FINERACT_SERVER_SSL_ENABLED}}"
           - name: FINERACT_DEFAULT_TENANTDB_UID
             valueFrom:
               secretKeyRef:
