@@ -78,6 +78,10 @@ spec:
             value: "{{ .Values.fineract.spec.template.spec.containers.env.FINERACT_HIKARI_DRIVER_CLASS_NAME }}"
           - name: FINERACT_HIKARI_JDBC_URL
             value: "{{ .Values.fineract.spec.template.spec.containers.env.FINERACT_HIKARI_JDBC_URL }}"
+          - name: FINERACT_SECURITY_BASICAUTH_ENABLED
+            value: "{{ .Values.fineract.spec.template.spec.containers.env.FINERACT_SECURITY_BASICAUTH_ENABLED }}"
+          - name: FINERACT_SECURITY_OAUTH_ENABLED
+            value: "{{ .Values.fineract.spec.template.spec.containers.env.FINERACT_SECURITY_OAUTH_ENABLED }}"
           - name: FINERACT_HIKARI_USERNAME
             valueFrom:
               secretKeyRef:
