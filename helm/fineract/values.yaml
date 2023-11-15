@@ -1,4 +1,8 @@
 fineract:
+  deployment:
+    - FINERACT_SECURITY_BASICAUTH_ENABLED: true
+    - FINERACT_SECURITY_OAUTH_ENABLED: true
+
   enabled: true
   db: fineract-mysql
   DFSPIDS: ""
