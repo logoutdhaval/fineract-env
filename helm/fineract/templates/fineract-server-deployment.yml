@@ -108,6 +108,9 @@ spec:
                 key: password
           - name: FINERACT_DEFAULT_TENANTDB_CONN_PARAMS
             value: ''
+{{- if .Values.extraEnvs | default .Values.fineract.deployment.extraEnvs }}
+{{ toYaml ( .Values.extraEnvs | default .Values.fineract.deployment.extraEnvs ) | indent 10 }}
+{{- end }}
         ports:
           - containerPort: {{ .Values.fineract.spec.template.spec.containers.env.FINERACT_SERVER_PORT }}
             name: fineract-server

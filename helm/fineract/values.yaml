@@ -32,6 +32,12 @@ fineract:
     requests:
       cpu: "200m"
       memory: "0.5Gi"
+  deployment:
+    extraEnvs:
+      - name: "FINERACT_SECURITY_BASICAUTH_ENABLED"
+        value: 'true'
+      - name: "FINERACT_SECURITY_OAUTH_ENABLED"
+        value: 'false'
 
 communityapp:
   enabled: true
