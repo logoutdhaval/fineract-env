@@ -3,7 +3,7 @@ fineract:
   db: fineract-mysql
   DFSPIDS: ""
   SPRING_PROFILES_ACTIVE: "bb"
-  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract:1.8.2"
+  image: "docker.io/openmf/fineract:1.9.0"
   spec: 
     template:
        spec:
@@ -40,11 +40,11 @@ fineract:
         value: 'false'
 
 communityapp:
-  enabled: true
+  enabled: false
   lookforservice: true
-  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/community-app:latest"
+  image: "docker.io/openmf/community-app:latest"
   ingress:
-    enabled: true
+    enabled: false
     hostname: "communityapp.sandbox.fynarfin.io"
     path: "/"
     wildcardhostname: "communityapp.sandbox.fynarfin.io"
@@ -59,13 +59,15 @@ communityapp:
       memory: "0.5Gi"
 
 webapp:
-  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract/phee-ns/web-app:latest"
+  enabled: true
+  image: "docker.io/openmf/web-app:master"
   ingress:
-    enabled: false
-    hostname: ""
-    path: "/web"
+    enabled: true
+    hostname: "web-app.sandbox.fynarfin.io"
+    path: "/"
     annotations:
       kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
   resources:
     limits:
       cpu: "500m"
@@ -81,9 +83,6 @@ selfservice:
     hostname: ""
     path: "/self"
     annotations: {}
-
-
-
 
 mysql:
   fullnameOverride: fineract-mysql

@@ -9,7 +9,7 @@ spec:
     port: 8080
     targetPort: 80
   selector:
-    app: webapp
+    app: web-app
   type: NodePort
 
 ---
@@ -33,7 +33,7 @@ spec:
               service:
                 name: webapp
                 port: 
-                number: 80
+                  number: 80
   tls:
     - hosts:
         - "{{ .Values.wildcardhostname }}"
