@@ -1,0 +1,96 @@
+{{- if .Values.post_installation_job.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: post-installation-job
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
+spec:
+  template:
+    spec:
+      serviceAccountName: job-creator
+      containers:
+        - name: post-installation-job
+          image: mysql:latest
+          securityContext:
+            privileged: true
+          env:
+            - name: MYSQL_PWD
+              value: "{{.Values.mysql.auth.rootPassword}}"
+            - name: TENANTS
+              value: "{{.Values.post_installation_job.tenants}}"
+            - name: NAMESPACE
+              value: {{ .Release.Namespace }}
+          command:
+            - "/bin/sh"
+            - "-c"
+          args:
+            - |
+              #!/bin/bash
+
+              # Install required dependencies
+              apt-get update
+              apt install sudo
+              # sudo apt-get update
+              sudo apt-get --assume-yes install apt-transport-https ca-certificates curl gnupg lsb-release
+
+              #install kubectl
+
+              apt-get update && apt-get install -y \
+              apt-transport-https \
+              curl
+              #apt-get install -y apt-transport-https ca-certificates curl gpg
+              curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
+              chmod +x ./kubectl && \
+              mv ./kubectl /usr/local/bin/kubectl
+              #curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key |  gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+              # This overwrites any existing configuration in /etc/apt/sources.list.d/kubernetes.list
+              echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' |  tee /etc/apt/sources.list.d/kubernetes.list
+              apt-get install -y kubelet kubeadm kubectl
+              apt-mark hold kubelet kubeadm kubectl
+              sudo apt-get install -y kubectl
+              curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+              chmod +x ./kubectl
+              sudo mv ./kubectl /usr/local/bin/kubectl
+              echo "GETTING KUBECTL VERSION"
+              kubectl version
+
+              pod_ready=$(kubectl get pod fineract-mysql-0 -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}' -n $NAMESPACE)
+
+              while [ $pod_ready = "False" ]; do
+                  pod_ready=$(kubectl get pod fineract-mysql-0 -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}' -n $NAMESPACE)
+                  echo $pod_ready
+                  echo "Waiting for fineract-mysql service";
+                  sleep 2;
+              done;
+              echo ------fineract-mysql-0 Pod available-----------
+              sleep 70
+              echo "------------- wait for migrations to apply ------------"
+              echo "$TENANTS"
+
+              IFS=',' read -r -a tenant <<< "$TENANTS"
+
+              for item in "${tenant[@]}"; do
+                echo "$item"
+                createDB+="CREATE DATABASE IF NOT EXISTS $item; "
+                grantDB+="GRANT ALL PRIVILEGES ON $item.* TO mifos; "
+                insertTenantServerConnection+="INSERT INTO tenant_server_connections (schema_server,schema_name,schema_server_port,schema_username,schema_password,auto_update,pool_initial_size,pool_validation_interval,pool_remove_abandoned,pool_remove_abandoned_timeout,pool_log_abandoned,pool_abandon_when_percentage_full,pool_test_on_borrow,pool_max_active,pool_min_idle,pool_max_idle,pool_suspect_timeout,pool_time_between_eviction_runs_millis,pool_min_evictable_idle_time_millis,schema_connection_parameters,readonly_schema_password,master_password_hash) SELECT 'fineract-mysql','$item',3306,'mifos',(SELECT schema_password from tenant_server_connections WHERE id=1),1,5,30000,1,60,1,50,1,40,20,10,60,34000,60000,'serverTimezone=UTC&useLegacyDatetimeCode=false&sessionVariables=time_zone=\'-00:00\'',(SELECT readonly_schema_password from tenant_server_connections WHERE id=1), (SELECT master_password_hash from tenant_server_connections WHERE id=1) WHERE NOT EXISTS (SELECT tenant_server_connections.schema_name from tenant_server_connections where tenant_server_connections.schema_name='$item'); "
+                insertTenants+="INSERT INTO tenants (identifier,name,timezone_id,oltp_id,report_id) SELECT '$item','Default Demo Tenant','Asia/Kolkata',(SELECT id FROM tenant_server_connections WHERE schema_name = '$item'),(SELECT id FROM tenant_server_connections WHERE schema_name = '$item') WHERE NOT EXISTS (SELECT identifier FROM tenants WHERE identifier='$item'); "
+              done
+
+              all_commands="${createDB} ${grantDB} USE fineract_tenants; ${insertTenantServerConnection} ${insertTenants}"
+              echo "Final SQL query: $all_commands"
+
+              mysql -h fineract-mysql -u root -p$MYSQL_PWD -e "$all_commands"
+
+              echo "---------------- restart fineract-server -------------------"
+
+              kubectl delete pod -l app=fineract-server -n $NAMESPACE
+              #kubectl rollout restart deployment fineract-server -n $NAMESPACE
+              sleep 20000
+              echo ---------------------------successful--------------------------
+      restartPolicy: Never
+  backoffLimit: 0
+{{- end }}
