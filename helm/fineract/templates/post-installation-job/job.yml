@@ -87,9 +87,8 @@ spec:
 
               echo "---------------- restart fineract-server -------------------"
 
-              kubectl delete pod -l app=fineract-server -n $NAMESPACE
+              #kubectl delete pod -l app=fineract-server -n $NAMESPACE
               #kubectl rollout restart deployment fineract-server -n $NAMESPACE
-              sleep 20000
               echo ---------------------------successful--------------------------
       restartPolicy: Never
   backoffLimit: 0
