@@ -19,7 +19,7 @@ fineract:
   preStopScript: 'echo -e "******Fineract is stopping********";'
   ingress:
     enabled: true
-    hostname: "fynams1.sandbox.fynarfin.io"
+    hostname: "fynams.sandbox.fynarfin.io"
     path: "/"
     wildcardhostname: "*.sandbox.fynarfin.io"
     annotations:
@@ -63,7 +63,7 @@ webapp:
   image: "docker.io/openmf/web-app:master"
   ingress:
     enabled: true
-    hostname: "web-app1.sandbox.fynarfin.io"
+    hostname: "web-app.sandbox.fynarfin.io"
     path: "/"
     annotations:
       kubernetes.io/ingress.class: "nginx"
