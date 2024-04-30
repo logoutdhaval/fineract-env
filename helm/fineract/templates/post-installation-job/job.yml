@@ -83,6 +83,14 @@ spec:
               done;
               echo "------------- $db_change_log_lock_exist exists-----------"
 
+              db_locked=$(mysql -h fineract-mysql -u root -p$MYSQL_PWD -se "USE fineract_default; Select locked from DATABASECHANGELOGLOCK where id = 1;")
+              while [ "$db_locked" != "0" ]; do
+                  db_locked=$(mysql -h fineract-mysql -u root -p$MYSQL_PWD -se "USE fineract_default; Select locked from DATABASECHANGELOGLOCK where id = 1;")
+                  echo "check for DB is locked";
+                  sleep 2;
+              done;
+              echo "---------- DB is locked ------------";
+
               echo "$TENANTS"
 
               IFS=',' read -r -a tenant <<< "$TENANTS"
@@ -99,14 +107,6 @@ spec:
               echo "Final SQL query: $all_commands"
 
               mysql -h fineract-mysql -u root -p$MYSQL_PWD -e "$all_commands"
-
-              db_locked=$(mysql -h fineract-mysql -u root -p$MYSQL_PWD -se "USE fineract_default; Select locked from DATABASECHANGELOGLOCK where id = 1;")
-              while [ "$db_locked" != "0" ]; do
-                  db_locked=$(mysql -h fineract-mysql -u root -p$MYSQL_PWD -se "USE fineract_default; Select locked from DATABASECHANGELOGLOCK where id = 1;")
-                  echo "check for DB is locked";
-                  sleep 2;
-              done;
-              echo "---------- DB is locked ------------";
               echo "---------------- restart fineract-server -------------------"
               kubectl delete pod -l app=fineract-server -n $NAMESPACE
               #kubectl rollout restart deployment fineract-server -n $NAMESPACE
