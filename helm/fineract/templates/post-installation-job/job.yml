@@ -58,16 +58,31 @@ spec:
               kubectl version
 
               pod_ready=$(kubectl get pod fineract-mysql-0 -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}' -n $NAMESPACE)
-
+              pod_name=$(kubectl get pods --no-headers -o custom-columns=":metadata.name" -n fin | grep mysql)
               while [ $pod_ready = "False" ]; do
-                  pod_ready=$(kubectl get pod fineract-mysql-0 -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}' -n $NAMESPACE)
+                  pod_ready=$(kubectl get pod $pod_name -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}' -n $NAMESPACE)
                   echo $pod_ready
-                  echo "Waiting for fineract-mysql service";
+                  echo "Waiting for $pod_name service";
                   sleep 2;
               done;
-              echo ------fineract-mysql-0 Pod available-----------
-              sleep 70
-              echo "------------- wait for migrations to apply ------------"
+              echo "------$pod_name Pod available-----------"
+
+              tenant_conntn_table_exist=$(mysql -h fineract-mysql -u root -p$MYSQL_PWD -se "USE fineract_tenants; SHOW TABLES LIKE 'tenant_server_connections';")
+
+              while [ "$tenant_conntn_table_exist" != "tenant_server_connections" ]; do
+                  tenant_conntn_table_exist=$(mysql -h fineract-mysql -u root -p$MYSQL_PWD -se "USE fineract_tenants; SHOW TABLES LIKE 'tenant_server_connections';")
+                  echo "Waiting for tenant_server_connections table";
+                  sleep 2;
+              done;
+              echo "------------- $tenant_conntn_table_exist exists-----------"
+              db_change_log_lock_exist=$(mysql -h fineract-mysql -u root -p$MYSQL_PWD -se "USE fineract_default; SHOW TABLES LIKE 'DATABASECHANGELOGLOCK';")
+              while [ "$db_change_log_lock_exist" != "DATABASECHANGELOGLOCK" ]; do
+                  db_change_log_lock_exist=$(mysql -h fineract-mysql -u root -p$MYSQL_PWD -se "USE fineract_default; SHOW TABLES LIKE 'DATABASECHANGELOGLOCK';")
+                  echo "Waiting for DATABASECHANGELOGLOCK table";
+                  sleep 2;
+              done;
+              echo "------------- $db_change_log_lock_exist exists-----------"
+
               echo "$TENANTS"
 
               IFS=',' read -r -a tenant <<< "$TENANTS"
@@ -76,7 +91,7 @@ spec:
                 echo "$item"
                 createDB+="CREATE DATABASE IF NOT EXISTS $item; "
                 grantDB+="GRANT ALL PRIVILEGES ON $item.* TO mifos; "
-                insertTenantServerConnection+="INSERT INTO tenant_server_connections (schema_server,schema_name,schema_server_port,schema_username,schema_password,auto_update,pool_initial_size,pool_validation_interval,pool_remove_abandoned,pool_remove_abandoned_timeout,pool_log_abandoned,pool_abandon_when_percentage_full,pool_test_on_borrow,pool_max_active,pool_min_idle,pool_max_idle,pool_suspect_timeout,pool_time_between_eviction_runs_millis,pool_min_evictable_idle_time_millis,schema_connection_parameters,readonly_schema_password,master_password_hash) SELECT 'fineract-mysql','$item',3306,'mifos',(SELECT schema_password from tenant_server_connections WHERE id=1),1,5,30000,1,60,1,50,1,40,20,10,60,34000,60000,'serverTimezone=UTC&useLegacyDatetimeCode=false&sessionVariables=time_zone=\'-00:00\'',(SELECT readonly_schema_password from tenant_server_connections WHERE id=1), (SELECT master_password_hash from tenant_server_connections WHERE id=1) WHERE NOT EXISTS (SELECT tenant_server_connections.schema_name from tenant_server_connections where tenant_server_connections.schema_name='$item'); "
+                insertTenantServerConnection+="INSERT INTO tenant_server_connections (schema_server,schema_name,schema_server_port,schema_username,schema_password,auto_update,pool_initial_size,pool_validation_interval,pool_remove_abandoned,pool_remove_abandoned_timeout,pool_log_abandoned,pool_abandon_when_percentage_full,pool_test_on_borrow,pool_max_active,pool_min_idle,pool_max_idle,pool_suspect_timeout,pool_time_between_eviction_runs_millis,pool_min_evictable_idle_time_millis,schema_connection_parameters,readonly_schema_password,master_password_hash) SELECT 'fineract-mysql','$item',3306,'mifos',(SELECT schema_password from tenant_server_connections WHERE schema_name='fineract_default'),1,5,30000,1,60,1,50,1,40,20,10,60,34000,60000,'serverTimezone=UTC&useLegacyDatetimeCode=false&sessionVariables=time_zone=\'-00:00\'',(SELECT readonly_schema_password from tenant_server_connections WHERE schema_name='fineract_default'), (SELECT master_password_hash from tenant_server_connections WHERE schema_name='fineract_default') WHERE NOT EXISTS (SELECT tenant_server_connections.schema_name from tenant_server_connections where tenant_server_connections.schema_name='$item'); "
                 insertTenants+="INSERT INTO tenants (identifier,name,timezone_id,oltp_id,report_id) SELECT '$item','Default Demo Tenant','Asia/Kolkata',(SELECT id FROM tenant_server_connections WHERE schema_name = '$item'),(SELECT id FROM tenant_server_connections WHERE schema_name = '$item') WHERE NOT EXISTS (SELECT identifier FROM tenants WHERE identifier='$item'); "
               done
 
@@ -85,9 +100,15 @@ spec:
 
               mysql -h fineract-mysql -u root -p$MYSQL_PWD -e "$all_commands"
 
+              db_locked=$(mysql -h fineract-mysql -u root -p$MYSQL_PWD -se "USE fineract_default; Select locked from DATABASECHANGELOGLOCK where id = 1;")
+              while [ "$db_locked" != "0" ]; do
+                  db_locked=$(mysql -h fineract-mysql -u root -p$MYSQL_PWD -se "USE fineract_default; Select locked from DATABASECHANGELOGLOCK where id = 1;")
+                  echo "check for DB is locked";
+                  sleep 2;
+              done;
+              echo "---------- DB is locked ------------";
               echo "---------------- restart fineract-server -------------------"
-
-              #kubectl delete pod -l app=fineract-server -n $NAMESPACE
+              kubectl delete pod -l app=fineract-server -n $NAMESPACE
               #kubectl rollout restart deployment fineract-server -n $NAMESPACE
               echo ---------------------------successful--------------------------
       restartPolicy: Never
