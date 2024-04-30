@@ -40,7 +40,6 @@ spec:
         name: web-app-container
         ports:
         - containerPort: 80
-        resources: {}
       restartPolicy: Always
 #      serviceAccountName: ""
 #      volumes: null
